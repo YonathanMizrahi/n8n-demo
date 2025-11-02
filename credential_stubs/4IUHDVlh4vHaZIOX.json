@@ -1,0 +1,14 @@
+{
+  "id": "4IUHDVlh4vHaZIOX",
+  "name": "Google Gemini(PaLM) Api account",
+  "type": "googlePalmApi",
+  "data": {
+    "apiKey": ""
+  },
+  "ownedBy": {
+    "type": "personal",
+    "projectId": "YmoaGKSml9ZuoZ0U",
+    "projectName": "Yonathan Mizrahi <yonathan.m@lsports.eu>",
+    "personalEmail": "yonathan.m@lsports.eu"
+  }
+}

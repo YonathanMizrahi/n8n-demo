@@ -1,0 +1,58 @@
+{
+  "tags": [
+    {
+      "id": "d19RpRt4REOwcL2J",
+      "name": "Digital Marketing"
+    },
+    {
+      "id": "cXInQkiflAHZ8SID",
+      "name": "Finance"
+    },
+    {
+      "id": "PAKMiy0i86GnbmWW",
+      "name": "HR"
+    }
+  ],
+  "mappings": [
+    {
+      "workflowId": "H1JG3GmdNvRQDD2I",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "3FGAgCq0OuT4t0dD",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "0YM4KEv74Tq8q3c6",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "oBsN8dIosXjaavBi",
+      "tagId": "cXInQkiflAHZ8SID"
+    },
+    {
+      "workflowId": "ljjHcNcCwiqILL1Q",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "pEnsHAnuIWxcjE48",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "9edesBfiN4nQqaYC",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "e1DW1dZJAk5IwI0U",
+      "tagId": "cXInQkiflAHZ8SID"
+    },
+    {
+      "workflowId": "s8RlKBfTXsyrj6Dq",
+      "tagId": "d19RpRt4REOwcL2J"
+    },
+    {
+      "workflowId": "hs9mXpSZr9m844K5",
+      "tagId": "PAKMiy0i86GnbmWW"
+    }
+  ]
+}

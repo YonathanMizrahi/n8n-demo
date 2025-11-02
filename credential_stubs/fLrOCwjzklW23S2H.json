@@ -1,0 +1,15 @@
+{
+  "id": "fLrOCwjzklW23S2H",
+  "name": "Supabase account",
+  "type": "supabaseApi",
+  "data": {
+    "host": "",
+    "serviceRole": ""
+  },
+  "ownedBy": {
+    "type": "personal",
+    "projectId": "YmoaGKSml9ZuoZ0U",
+    "projectName": "Yonathan Mizrahi <yonathan.m@lsports.eu>",
+    "personalEmail": "yonathan.m@lsports.eu"
+  }
+}
