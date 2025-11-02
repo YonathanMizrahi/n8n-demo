@@ -1,0 +1,574 @@
+{
+  "id": "LRZbJBp6BJ4LrqLP",
+  "name": "Luma<>n8n integration",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -192
+      ],
+      "id": "13449e7c-7302-4712-9230-3e2dc52ae0b6",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://public-api.luma.com/v1/user/get-self",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-luma-api-key",
+              "value": "secret-4zOZ2BHJQ0TJcNYBnEiCEXGsR"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        176,
+        -192
+      ],
+      "id": "9c8b5345-bf25-4bb0-87ca-0fe91d9b8203",
+      "name": "Luma - Authentication"
+    },
+    {
+      "parameters": {
+        "url": "https://public-api.luma.com/v1/calendar/list-events",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "x-luma-api-key",
+              "value": "secret-4zOZ2BHJQ0TJcNYBnEiCEXGsR"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        464,
+        -48
+      ],
+      "id": "c197fd29-b008-4291-b794-e5024dc051ae",
+      "name": "Calendar - List Events"
+    },
+    {
+      "parameters": {
+        "url": "https://public-api.luma.com/v1/event/get-guests",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "event_api_id",
+              "value": "evt-kQ4bi4SHeVp4Ot2"
+            },
+            {
+              "name": "approval_status",
+              "value": "approved"
+            },
+            {
+              "name": "pagination_cursor",
+              "value": "={{ $json.next_cursor }}"
+            },
+            {
+              "name": "pagination_limit",
+              "value": "1000"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "x-luma-api-key",
+              "value": "secret-4zOZ2BHJQ0TJcNYBnEiCEXGsR"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        912,
+        -48
+      ],
+      "id": "eaf545d0-4359-422d-9a94-ebdfd0009d0c",
+      "name": "Events - Get Guests"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d4200741-f3e4-48a0-8a2d-31beef75992f",
+              "name": "next_cursor",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        -48
+      ],
+      "id": "9f1854d3-a9c3-4c17-8229-e9f4184adc24",
+      "name": "next_cursor field"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3ee02853-b207-426a-9d21-ccaac5eb6467",
+              "leftValue": "={{ $('Events - Get Guests').item.json.has_more }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        -48
+      ],
+      "id": "da66571a-acb1-4953-aaaf-c4d93a9d9bb0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5acaaf07-1087-4610-bef4-b244518baf9b",
+              "name": "next_cursor",
+              "value": "={{ $('Events - Get Guests').item.json.next_cursor }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2064,
+        48
+      ],
+      "id": "b28df69b-d4ad-4482-ab55-5b4e6ceff172",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2240,
+        48
+      ],
+      "id": "fafcc0c8-85e7-498a-a537-bf9b8c84e562",
+      "name": "Wait",
+      "webhookId": "82879091-a1d9-4e4a-b734-ae950d89cc5a"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XUEENqCxh6GvwFv34TfaD3SXc85lbcVr1dBHdUDNAFw",
+          "mode": "list",
+          "cachedResultName": "temp-guest-list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XUEENqCxh6GvwFv34TfaD3SXc85lbcVr1dBHdUDNAFw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XUEENqCxh6GvwFv34TfaD3SXc85lbcVr1dBHdUDNAFw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2064,
+        -128
+      ],
+      "id": "665b2d3d-b37e-435d-9822-8d496d73d21c",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EyId8Iu9IH2YCCHL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "entries",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -48
+      ],
+      "id": "f7d746f9-3b32-4dcc-bd89-e9a8ca8d4c0e",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        -48
+      ],
+      "id": "9c544e4a-b87a-430b-98cc-17e0a8dbbb85",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1XUEENqCxh6GvwFv34TfaD3SXc85lbcVr1dBHdUDNAFw",
+          "mode": "list",
+          "cachedResultName": "temp-guest-list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XUEENqCxh6GvwFv34TfaD3SXc85lbcVr1dBHdUDNAFw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XUEENqCxh6GvwFv34TfaD3SXc85lbcVr1dBHdUDNAFw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.guest.email }}",
+            "Name": "={{ $json.guest.name }}",
+            "Created-At": "={{ $json.guest.created_at }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Created-At",
+              "displayName": "Created-At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1504,
+        -48
+      ],
+      "id": "f9a422a6-86c1-43ca-bad2-4af62d93b289",
+      "name": "Append or update row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EyId8Iu9IH2YCCHL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6c0372cc-eaff-4d5b-bcde-736b0b9b9aa6",
+              "name": "guest.created_at",
+              "value": "={{ $json.guest.created_at }}",
+              "type": "string"
+            },
+            {
+              "id": "da5ca4b4-1d06-4c34-a6e1-dd62cbc10b03",
+              "name": "guest.name",
+              "value": "={{ $json.guest.name }}",
+              "type": "string"
+            },
+            {
+              "id": "b774816a-f0b1-4ba0-9b6a-025209c46a36",
+              "name": "guest.email",
+              "value": "={{ $json.guest.email }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1312,
+        -48
+      ],
+      "id": "70680e49-9198-4fe2-8ed1-2b925ca0a3cd",
+      "name": "Map Get List"
+    },
+    {
+      "parameters": {
+        "url": "https://public-api.luma.com/v1/event/get",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "x-luma-api-key",
+              "value": "secret-4zOZ2BHJQ0TJcNYBnEiCEXGsR"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        384,
+        -192
+      ],
+      "id": "fd2893be-4171-4250-96f7-cd500e54271c",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Luma - Authentication",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Luma - Authentication": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar - List Events": {
+      "main": [
+        [
+          {
+            "node": "next_cursor field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Events - Get Guests": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "next_cursor field": {
+      "main": [
+        [
+          {
+            "node": "Events - Get Guests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Events - Get Guests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Map Get List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Get List": {
+      "main": [
+        [
+          {
+            "node": "Append or update row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "01f3e1a9-b0ad-4b7b-9540-410f67339f8b",
+  "owner": {
+    "type": "personal",
+    "projectId": "YmoaGKSml9ZuoZ0U",
+    "projectName": "Yonathan Mizrahi <yonathan.m@lsports.eu>",
+    "personalEmail": "yonathan.m@lsports.eu"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
